@@ -1,6 +1,6 @@
 # MoviWeb App
 
-A movie-favorites manager where members can build and manage personal film collections, complete with movie details and posters from OMDb.
+MoviWeb is a Flask-powered movie-favorites platform for curating personal film collections with rich details and posters from OMDb.
 
 ## Live app
 
@@ -21,4 +21,3 @@ Hosted on PythonAnywhere’s free tier.
 - **Jinja2**, **HTML**, and **CSS** — responsive templates and styling
 - **OMDb API** — movie information and posters
 - **PythonAnywhere** — hosting
-
