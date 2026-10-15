@@ -1,6 +1,6 @@
 # MoviWeb App
 
-MoviWeb is a Flask-powered movie-favorites platform for curating personal film collections with rich details and posters from OMDb.
+MoviWeb is an NDA-limited prototype of the main app, built with Flask to curate personal movie collections using rich details and posters from OMDb.
 
 ## Live app
 
