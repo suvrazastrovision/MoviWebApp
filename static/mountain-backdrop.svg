@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1800 1100" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="900" y1="0" x2="900" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#9ED9E8"/>
+      <stop offset=".48" stop-color="#E3F1E8"/>
+      <stop offset="1" stop-color="#F7F4E8"/>
+    </linearGradient>
+    <linearGradient id="far-mountain" x1="900" y1="390" x2="900" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#B4CDD1"/>
+      <stop offset="1" stop-color="#91B5AE"/>
+    </linearGradient>
+    <linearGradient id="middle-mountain" x1="900" y1="510" x2="900" y2="1020" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#719B91"/>
+      <stop offset="1" stop-color="#487A70"/>
+    </linearGradient>
+    <linearGradient id="foreground" x1="900" y1="650" x2="900" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#315F58"/>
+      <stop offset="1" stop-color="#214B49"/>
+    </linearGradient>
+    <linearGradient id="snow" x1="900" y1="300" x2="900" y2="540" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFDF3"/>
+      <stop offset="1" stop-color="#D9E9E3"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0" cy="0" r="1" gradientTransform="matrix(0 175 -175 0 1390 245)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF7C6"/>
+      <stop offset="1" stop-color="#FFF7C6" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1800v1100H0z"/>
+  <circle cx="1390" cy="245" r="175" fill="url(#sun)"/>
+  <circle cx="1390" cy="245" r="68" fill="#FFF3C4" fill-opacity=".9"/>
+  <path fill="#fff" fill-opacity=".48" d="M220 229c10-39 46-65 88-65 35 0 66 18 81 47 10-4 20-6 31-6 43 0 78 31 83 72H211c1-22 4-36 9-48Zm876-77c8-31 37-53 70-53 27 0 52 14 64 37 7-3 15-5 23-5 34 0 62 25 66 57h-226c1-17 2-27 3-36Z"/>
+  <path fill="url(#far-mountain)" d="m0 699 251-243 142 128 242-279 164 178 242-290 247 288 154-142 358 357v304H0V699Z"/>
+  <path fill="url(#snow)" d="m635 305 164 178-86-35-48 45-40-27-71 62 81-223Zm406-112 247 288-117-70-69 47-68-56-90 41 97-250Zm-790 263 142 128-101-42-41 29-53-30 53-85Zm879-115 65 76-44-17-30 24-32-25 41-58Z"/>
+  <path fill="url(#middle-mountain)" d="m0 825 238-222 164 123 253-224 198 223 167-152 192 176 167-128 421 270v209H0V825Z"/>
+  <path fill="#A9C8B8" fill-opacity=".65" d="m402 726 253-224-80 180-62-25-48 76-63-13Zm451-1 167-152-46 128-47-19-74 65Zm526-6 167-128-72 151-56-27-39 31Z"/>
+  <path fill="url(#foreground)" d="m0 965 201-119 165 92 206-138 190 125 177-105 172 100 197-111 192 126 150-70v235H0V965Z"/>
+  <path fill="#D7E6D7" fill-opacity=".58" d="m0 965 201-119-98 112-62 3-41 51Zm572-165 190 125-104-27-44 23-86-52Zm367 20 172 100-93-22-60 20-71-46Zm369 4 192 126-111-44-48 18-93-57Z"/>
+  <g fill="#234F4B" fill-opacity=".82">
+    <path d="m89 1100 48-163 48 163H89Zm-15-74h126v17H74Zm65-69 32 108h-64l32-108Zm511 143 42-143 42 143h-84Zm-13-64h110v16H637Zm665 64 49-166 49 166h-98Zm-15-76h128v18h-128Zm260 76 38-128 38 128h-76Zm-12-58h100v15h-100Z"/>
+  </g>
+</svg>

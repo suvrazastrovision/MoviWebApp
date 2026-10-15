@@ -1,58 +1,73 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>{{ user.name }}'s favorite movies</title>
-</head>
-<body>
-    <main>
-        <p><a href="{{ url_for('home') }}">Back to users</a></p>
-        <h1>{{ user.name }}'s favorite movies</h1>
+{% extends "base.html" %}
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul>
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+{% block title %}{{ user.name }}'s favorite movies - MoviWeb App{% endblock %}
 
-        {% if movies %}
-            <ul>
-                {% for movie in movies %}
-                    <li>
-                        <h2>{{ movie.title }}</h2>
-                        {% if movie.poster %}
-                            <img src="{{ movie.poster }}" alt="Poster for {{ movie.title }}" width="120">
-                        {% endif %}
-                        {% if movie.director %}<p>Director: {{ movie.director }}</p>{% endif %}
-                        {% if movie.year %}<p>Year: {{ movie.year }}</p>{% endif %}
-                        {% if movie.rating %}<p>Rating: {{ movie.rating }}</p>{% endif %}
+{% block content %}
+    <p class="back-link"><a href="{{ url_for('index') }}">← All members</a></p>
+    <section class="page-intro">
+        <p class="eyebrow">MOVIE SHELF</p>
+        <h1>{{ user.name }}'s favorites</h1>
+        <p class="intro-copy">A collection of films picked by {{ user.name }}.</p>
+    </section>
 
-                        <form action="{{ url_for('update_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
-                            <label for="title-{{ movie.id }}">Edit title</label>
-                            <input id="title-{{ movie.id }}" name="title" value="{{ movie.title }}" required maxlength="255">
-                            <button type="submit">Update title</button>
-                        </form>
-                        <form action="{{ url_for('delete_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
-                            <button type="submit">Remove movie</button>
-                        </form>
-                    </li>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
                 {% endfor %}
             </ul>
-        {% else %}
-            <p>This user has no favorite movies yet.</p>
         {% endif %}
+    {% endwith %}
 
+    {% if movies %}
+        <ul class="movie-list">
+            {% for movie in movies %}
+                <li class="movie-card">
+                    {% if movie.poster %}
+                        <img class="movie-poster" src="{{ movie.poster }}" alt="Poster for {{ movie.title }}" loading="lazy">
+                    {% else %}
+                        <div class="poster-placeholder" aria-label="No poster available">No poster</div>
+                    {% endif %}
+                    <div class="movie-details">
+                        <h2>{{ movie.title }}</h2>
+                        <div class="movie-meta">
+                            {% if movie.year %}<span>{{ movie.year }}</span>{% endif %}
+                            {% if movie.rating %}<span class="rating">★ {{ movie.rating }}</span>{% endif %}
+                        </div>
+                        {% if movie.director %}<p class="director">Directed by {{ movie.director }}</p>{% endif %}
+
+                        <div class="movie-actions">
+                            <form class="inline-form" action="{{ url_for('update_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
+                                <label class="visually-hidden" for="title-{{ movie.id }}">Edit title</label>
+                                <input id="title-{{ movie.id }}" name="title" value="{{ movie.title }}" required maxlength="255">
+                                <button type="submit" class="button-secondary">Update</button>
+                            </form>
+                            <form action="{{ url_for('delete_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
+                                <button type="submit" class="button-danger">Remove</button>
+                            </form>
+                        </div>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <div class="empty-state">
+            <h2>The shelf is waiting</h2>
+            <p>No favorite movies have been added yet. Search for one below.</p>
+        </div>
+    {% endif %}
+
+    <section class="panel form-panel add-movie-panel">
+        <p class="eyebrow">GROW YOUR COLLECTION</p>
         <h2>Add a movie</h2>
-        <form action="{{ url_for('create_movie', user_id=user.id) }}" method="post">
+        <form class="stacked-form" action="{{ url_for('create_movie', user_id=user.id) }}" method="post">
             <label for="title">Movie title</label>
-            <input id="title" name="title" required maxlength="255">
-            <button type="submit">Find and add movie</button>
+            <div class="form-row">
+                <input id="title" name="title" placeholder="Search by title" required maxlength="255">
+                <button type="submit">Find and add</button>
+            </div>
+            <p class="field-hint">We’ll look up the movie details and poster for you.</p>
         </form>
-    </main>
-</body>
-</html>
+    </section>
+{% endblock %}

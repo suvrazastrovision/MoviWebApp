@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}MoviWeb App{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="{{ url_for('index') }}" aria-label="MoviWeb App home">
+                <span class="brand-mark" aria-hidden="true">M</span>
+                <span>MoviWeb <span class="brand-light">App</span></span>
+            </a>
+            <nav class="site-nav" aria-label="Main navigation">
+                <a href="{{ url_for('index') }}">Users</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
+    <footer class="site-footer">
+        <p>Your personal shelf for favorite films.</p>
+    </footer>
+</body>
+</html>

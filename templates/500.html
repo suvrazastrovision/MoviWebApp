@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block title %}Database error - MoviWeb App{% endblock %}
+
+{% block content %}
+    <section class="panel error-panel">
+    <p class="eyebrow">SERVER ERROR</p>
+    <h2>Something went wrong</h2>
+    <p>We could not complete your request because of a database error. Please try again later.</p>
+    <p><a class="text-link" href="{{ url_for('index') }}">Return to the users page</a></p>
+    </section>
+{% endblock %}

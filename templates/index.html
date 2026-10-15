@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Users - MoviWeb App{% endblock %}
+
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul class="flash-messages">
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    <section class="page-intro">
+        <p class="eyebrow">YOUR MOVIE CLUB</p>
+        <h1>People &amp; their favorites</h1>
+        <p class="intro-copy">Choose a member to explore their movie shelf, or add someone new.</p>
+    </section>
+
+    <section class="panel">
+        <div class="section-heading">
+            <h2>Members</h2>
+            <span class="section-note">{{ users|length }} total</span>
+        </div>
+    <ul class="user-list">
+        {% for user in users %}
+            <li class="user-entry">
+                <a href="{{ url_for('user_movies', user_id=user.id) }}" class="btn">{{ user.name }}</a>
+            </li>
+        {% else %}
+            <li class="empty-state">No members yet. Add one below to get started.</li>
+        {% endfor %}
+    </ul>
+    </section>
+
+    <section class="panel form-panel">
+        <h2>Add a member</h2>
+        <form class="stacked-form" action="{{ url_for('create_user') }}" method="post">
+            <label for="name">Name</label>
+            <div class="form-row">
+                <input id="name" name="name" placeholder="e.g. Alex" required maxlength="100">
+                <button type="submit">Add member</button>
+            </div>
+        </form>
+    </section>
+{% endblock %}

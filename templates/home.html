@@ -1,45 +1,37 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>MoviWeb App</title>
-</head>
-<body>
-    <main>
-        <h1>MoviWeb App</h1>
+{% extends "base.html" %}
 
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                <ul>
-                    {% for category, message in messages %}
-                        <li class="{{ category }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
+{% block title %}Users - MoviWeb App{% endblock %}
 
-        <h2>Users</h2>
-        {% if users %}
+{% block content %}
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
             <ul>
-                {% for user in users %}
-                    <li>
-                        <a href="{{ url_for('user_movies', user_id=user.id) }}">
-                            {{ user.name }}
-                        </a>
-                    </li>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
                 {% endfor %}
             </ul>
-        {% else %}
-            <p>No users yet. Add one below.</p>
         {% endif %}
+    {% endwith %}
 
-        <h2>Add a user</h2>
-        <form action="{{ url_for('create_user') }}" method="post">
-            <label for="name">Name</label>
-            <input id="name" name="name" required maxlength="100">
-            <button type="submit">Add user</button>
-        </form>
-    </main>
-</body>
-</html>
+    <h2>Users</h2>
+    {% if users %}
+        <ul>
+            {% for user in users %}
+                <li>
+                    <a href="{{ url_for('user_movies', user_id=user.id) }}">
+                        {{ user.name }}
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No users yet. Add one below.</p>
+    {% endif %}
+
+    <h2>Add a user</h2>
+    <form action="{{ url_for('create_user') }}" method="post">
+        <label for="name">Name</label>
+        <input id="name" name="name" required maxlength="100">
+        <button type="submit">Add user</button>
+    </form>
+{% endblock %}
