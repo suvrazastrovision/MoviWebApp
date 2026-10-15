@@ -6,8 +6,6 @@ MoviWeb is an NDA-limited prototype of the main app, built with Flask to curate 
 
 Visit: **[suvranath.pythonanywhere.com](https://suvranath.pythonanywhere.com)**
 
-Hosted on PythonAnywhere’s free tier.
-
 ## Demo
 
 | Members | Favorite movies |
