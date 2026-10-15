@@ -1,6 +1,6 @@
 # MoviWeb App
 
-A polished movie-favorites manager where members can build and manage personal film collections, complete with movie details and posters from OMDb.
+A movie-favorites manager where members can build and manage personal film collections, complete with movie details and posters from OMDb.
 
 ## Live app
 
@@ -21,3 +21,4 @@ Hosted on PythonAnywhere’s free tier.
 - **Jinja2**, **HTML**, and **CSS** — responsive templates and styling
 - **OMDb API** — movie information and posters
 - **PythonAnywhere** — hosting
+
