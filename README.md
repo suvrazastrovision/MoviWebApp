@@ -4,7 +4,7 @@ A movie-favorites manager where members can build and manage personal film colle
 
 ## Live app
 
-**[Visit suvranath.pythonanywhere.com](https://suvranath.pythonanywhere.com)**
+Visit: **[suvranath.pythonanywhere.com](https://suvranath.pythonanywhere.com)**
 
 Hosted on PythonAnywhere’s free tier.
 
