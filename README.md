@@ -25,5 +25,5 @@ Visit: **[suvranath.pythonanywhere.com](https://suvranath.pythonanywhere.com)**
 - **Python** and **Flask** - application and routes
 - **Flask-SQLAlchemy** with **SQLite** - database and persistence
 - **Jinja2**, **HTML**, and **CSS** - responsive templates and styling
-- **OMDb API** - movie information and posters
+- [**OMDb API**](https://www.omdbapi.com/) - movie information and posters
 - **PythonAnywhere** - Cloud deployment
