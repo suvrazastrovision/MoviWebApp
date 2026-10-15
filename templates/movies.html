@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ user.name }}'s favorite movies</title>
+</head>
+<body>
+    <main>
+        <p><a href="{{ url_for('home') }}">Back to users</a></p>
+        <h1>{{ user.name }}'s favorite movies</h1>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <ul>
+                    {% for category, message in messages %}
+                        <li class="{{ category }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% if movies %}
+            <ul>
+                {% for movie in movies %}
+                    <li>
+                        <h2>{{ movie.title }}</h2>
+                        {% if movie.poster %}
+                            <img src="{{ movie.poster }}" alt="Poster for {{ movie.title }}" width="120">
+                        {% endif %}
+                        {% if movie.director %}<p>Director: {{ movie.director }}</p>{% endif %}
+                        {% if movie.year %}<p>Year: {{ movie.year }}</p>{% endif %}
+                        {% if movie.rating %}<p>Rating: {{ movie.rating }}</p>{% endif %}
+
+                        <form action="{{ url_for('update_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
+                            <label for="title-{{ movie.id }}">Edit title</label>
+                            <input id="title-{{ movie.id }}" name="title" value="{{ movie.title }}" required maxlength="255">
+                            <button type="submit">Update title</button>
+                        </form>
+                        <form action="{{ url_for('delete_movie', user_id=user.id, movie_id=movie.id) }}" method="post">
+                            <button type="submit">Remove movie</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>This user has no favorite movies yet.</p>
+        {% endif %}
+
+        <h2>Add a movie</h2>
+        <form action="{{ url_for('create_movie', user_id=user.id) }}" method="post">
+            <p>
+                <label for="title">Title</label>
+                <input id="title" name="title" required maxlength="255">
+            </p>
+            <p>
+                <label for="director">Director</label>
+                <input id="director" name="director" maxlength="255">
+            </p>
+            <p>
+                <label for="year">Year</label>
+                <input id="year" name="year" maxlength="20">
+            </p>
+            <p>
+                <label for="rating">Rating</label>
+                <input id="rating" name="rating" maxlength="20">
+            </p>
+            <p>
+                <label for="poster">Poster URL</label>
+                <input id="poster" name="poster" type="url" maxlength="500">
+            </p>
+            <button type="submit">Add movie</button>
+        </form>
+    </main>
+</body>
+</html>
