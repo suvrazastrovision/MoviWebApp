@@ -1,11 +1,18 @@
+import json
 import os
 import secrets
 from pathlib import Path
+from urllib.error import HTTPError, URLError
+from urllib.parse import urlencode
+from urllib.request import urlopen
 
+from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 from data_manager import DataManager
 from models import db, Movie, User
 
+
+load_dotenv(Path(__file__).resolve().parent / ".env")
 
 app = Flask(__name__)
 app.config["SECRET_KEY"] = os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32)
@@ -60,16 +67,49 @@ def create_movie(user_id):
         flash("Please enter a movie title.", "error")
         return redirect(url_for("user_movies", user_id=user_id))
 
+    api_key = os.environ.get("OMDB_API_KEY")
+    if not api_key:
+        flash("Movie lookup is unavailable. Set the OMDB_API_KEY environment variable.", "error")
+        return redirect(url_for("user_movies", user_id=user_id))
+
+    query = urlencode({"apikey": api_key, "t": title})
+    try:
+        with urlopen(f"https://www.omdbapi.com/?{query}", timeout=10) as response:
+            movie_data = json.load(response)
+    except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as error:
+        app.logger.warning(
+            "OMDb lookup failed for submitted movie title (%s).",
+            type(error).__name__,
+        )
+        flash("Could not retrieve movie information from OMDb. Please try again.", "error")
+        return redirect(url_for("user_movies", user_id=user_id))
+
+    if not isinstance(movie_data, dict):
+        flash("OMDb returned an invalid response. Please try again.", "error")
+        return redirect(url_for("user_movies", user_id=user_id))
+
+    if movie_data.get("Response") != "True":
+        error_message = movie_data.get("Error")
+        flash(
+            error_message if isinstance(error_message, str) else "OMDb did not return movie information.",
+            "error",
+        )
+        return redirect(url_for("user_movies", user_id=user_id))
+
+    def omdb_value(field):
+        value = movie_data.get(field)
+        return value if isinstance(value, str) and value != "N/A" else None
+
     movie = Movie(
-        title=title,
-        director=request.form.get("director", "").strip() or None,
-        year=request.form.get("year", "").strip() or None,
-        rating=request.form.get("rating", "").strip() or None,
-        poster=request.form.get("poster", "").strip() or None,
+        title=omdb_value("Title") or title,
+        director=omdb_value("Director"),
+        year=omdb_value("Year"),
+        rating=omdb_value("imdbRating"),
+        poster=omdb_value("Poster"),
         user_id=user_id,
     )
     data_manager.add_movie(movie)
-    flash(f"Added {title} to {user.name}'s favorites.", "success")
+    flash(f"Added {movie.title} to {user.name}'s favorites.", "success")
     return redirect(url_for("user_movies", user_id=user_id))
 
 

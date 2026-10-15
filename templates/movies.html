@@ -49,27 +49,9 @@
 
         <h2>Add a movie</h2>
         <form action="{{ url_for('create_movie', user_id=user.id) }}" method="post">
-            <p>
-                <label for="title">Title</label>
-                <input id="title" name="title" required maxlength="255">
-            </p>
-            <p>
-                <label for="director">Director</label>
-                <input id="director" name="director" maxlength="255">
-            </p>
-            <p>
-                <label for="year">Year</label>
-                <input id="year" name="year" maxlength="20">
-            </p>
-            <p>
-                <label for="rating">Rating</label>
-                <input id="rating" name="rating" maxlength="20">
-            </p>
-            <p>
-                <label for="poster">Poster URL</label>
-                <input id="poster" name="poster" type="url" maxlength="500">
-            </p>
-            <button type="submit">Add movie</button>
+            <label for="title">Movie title</label>
+            <input id="title" name="title" required maxlength="255">
+            <button type="submit">Find and add movie</button>
         </form>
     </main>
 </body>
