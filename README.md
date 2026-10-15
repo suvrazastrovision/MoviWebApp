@@ -16,8 +16,8 @@ Hosted on PythonAnywhere’s free tier.
 
 ## Tech stack
 
-- **Python** and **Flask** — application and routes
-- **Flask-SQLAlchemy** with **SQLite** — database and persistence
-- **Jinja2**, **HTML**, and **CSS** — responsive templates and styling
-- **OMDb API** — movie information and posters
-- **PythonAnywhere** — hosting
+- **Python** and **Flask** - application and routes
+- **Flask-SQLAlchemy** with **SQLite** - database and persistence
+- **Jinja2**, **HTML**, and **CSS** - responsive templates and styling
+- **OMDb API** - movie information and posters
+- **PythonAnywhere** - Cloud deployment
