@@ -1,3 +1,5 @@
+"""Flask app for managing users and favorite movies."""
+
 import json
 import os
 import secrets
@@ -9,8 +11,9 @@ from urllib.request import urlopen
 from dotenv import load_dotenv
 from flask import Flask, abort, flash, redirect, render_template, request, url_for
 from sqlalchemy.exc import SQLAlchemyError
+
 from data_manager import DataManager
-from models import db, Movie
+from models import Movie, db
 
 
 load_dotenv(Path(__file__).resolve().parent / ".env")
@@ -29,11 +32,13 @@ data_manager = DataManager()
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """Render the 404 page."""
     return render_template("404.html"), 404
 
 
 @app.errorhandler(SQLAlchemyError)
 def handle_database_error(error):
+    """Handle unexpected database issues."""
     db.session.rollback()
     app.logger.error(
         "A database operation failed.",
@@ -44,11 +49,13 @@ def handle_database_error(error):
 
 @app.route("/")
 def index():
+    """Display the main user list page."""
     return render_template("index.html", users=data_manager.get_users())
 
 
 @app.route("/users", methods=["POST"])
 def create_user():
+    """Create a new user from the form input."""
     name = request.form.get("name", "").strip()
     if not name:
         flash("Please enter a user name.", "error")
@@ -61,6 +68,7 @@ def create_user():
 
 @app.route("/users/<int:user_id>/movies", methods=["GET"])
 def user_movies(user_id):
+    """Show a user's movie favorites."""
     user = data_manager.get_user(user_id)
     if user is None:
         abort(404)
@@ -74,6 +82,7 @@ def user_movies(user_id):
 
 @app.route("/users/<int:user_id>/movies", methods=["POST"])
 def create_movie(user_id):
+    """Create a movie entry from OMDb data."""
     user = data_manager.get_user(user_id)
     if user is None:
         abort(404)
@@ -85,7 +94,10 @@ def create_movie(user_id):
 
     api_key = os.environ.get("OMDB_API_KEY")
     if not api_key:
-        flash("Movie lookup is unavailable. Set the OMDB_API_KEY environment variable.", "error")
+        flash(
+            "Movie lookup is unavailable. Set the OMDB_API_KEY environment variable.",
+            "error",
+        )
         return redirect(url_for("user_movies", user_id=user_id))
 
     query = urlencode({"apikey": api_key, "t": title})
@@ -107,12 +119,15 @@ def create_movie(user_id):
     if movie_data.get("Response") != "True":
         error_message = movie_data.get("Error")
         flash(
-            error_message if isinstance(error_message, str) else "OMDb did not return movie information.",
+            error_message
+            if isinstance(error_message, str)
+            else "OMDb did not return movie information.",
             "error",
         )
         return redirect(url_for("user_movies", user_id=user_id))
 
     def omdb_value(field):
+        """Return a clean OMDb value or None."""
         value = movie_data.get(field)
         return value if isinstance(value, str) and value != "N/A" else None
 
@@ -134,6 +149,7 @@ def create_movie(user_id):
     methods=["POST"],
 )
 def update_movie(user_id, movie_id):
+    """Update a movie title for a user."""
     if data_manager.get_user(user_id) is None:
         abort(404)
 
@@ -156,6 +172,7 @@ def update_movie(user_id, movie_id):
     methods=["POST"],
 )
 def delete_movie(user_id, movie_id):
+    """Delete a movie from a user's favorites."""
     if data_manager.get_user(user_id) is None:
         abort(404)
 
